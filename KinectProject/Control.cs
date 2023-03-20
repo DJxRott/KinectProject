@@ -10,7 +10,7 @@ namespace MusicControl
     class Program
     {
 
-
+        //Gestures Variables
         private static GesturesServiceEndpoint _gesturesService;
         private static Gesture _rotateGestureR;
         private static Gesture _rotateGestureL;
