@@ -28,7 +28,7 @@ namespace MusicControl
         static void Main(string[] args)
         {
             Console.Title = "GesturesServiceStatus[Initializing]";
-            Console.WriteLine("Execute one of the following gestures: Like, Drop-the-Mic, Rotate-Right, Rotatw-left ! press 'ctrl+c' to exit");
+            Console.WriteLine("press 'esc' to exit");
 
             // One can optionally pass the hostname/IP address where the gestures service is hosted
             var gesturesServiceHostName = !args.Any() ? "localhost" : args[0];
@@ -140,12 +140,17 @@ namespace MusicControl
                 new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
 
             var Open = new HandPose("Open", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
-                                                      new FingerPose(new AllFingersContext(), FingerFlexion.Open));
+                                                      new FingerPose(new AllFingersContext(), FingerFlexion.Open),
+                                                      new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Middle),
+                                                      new FingertipDistanceRelation(Finger.Middle, RelativeDistance.Touching, Finger.Ring),
+                                                      new FingertipDistanceRelation(Finger.Ring, RelativeDistance.Touching, Finger.Pinky));
 
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-            _OpenPalmGesture = new Gesture("PlayGesture", Close, Open);
+            _OpenPalmGesture = new Gesture("PlayGesture", Open, Close);
             _OpenPalmGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkBlue);
+            InputSimulator sim = new InputSimulator();
+            _OpenPalmGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
 
             //InputSimulator sim = new InputSimulator();
             //sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
