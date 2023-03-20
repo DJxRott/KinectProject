@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="InputSimulator" Version="1.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Microsoft.Gestures.Common.Core">
       <HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\Microsoft.Gestures.Common.Core.dll</HintPath>
     </Reference>

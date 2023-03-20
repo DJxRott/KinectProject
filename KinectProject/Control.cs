@@ -1,13 +1,16 @@
-﻿using System;
+﻿using Microsoft.Gestures;
 using Microsoft.Gestures.Endpoint;
-using Microsoft.Gestures;
-using System.Threading.Tasks;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
+//InputSiulator libraries for Virtual Keys
 
-namespace KinectProject
+namespace MusicControl
 {
     class Program
     {
+
+
         private static GesturesServiceEndpoint _gesturesService;
         private static Gesture _rotateGestureR;
         private static Gesture _rotateGestureL;
@@ -15,6 +18,9 @@ namespace KinectProject
         private static Gesture _likeGesture;
         private static Gesture _OpenPalmGesture;
         private static Gesture _OkGesture;
+        private static Gesture _RockGesture;
+
+
 
 
         static void Main(string[] args)
@@ -25,7 +31,16 @@ namespace KinectProject
             // One can optionally pass the hostname/IP address where the gestures service is hosted
             var gesturesServiceHostName = !args.Any() ? "localhost" : args[0];
             RegisterGestures(gesturesServiceHostName).Wait();
+            /*while (true)
+            {*/
+            //ConsoleKeyInfo key = 
             Console.ReadKey();
+
+            /*if (key.Key == ConsoleKey.Escape)
+            {
+                break;
+            }
+        }*/
         }
 
         private static async Task RegisterGestures(string gesturesServiceHostName)
@@ -42,6 +57,7 @@ namespace KinectProject
             await RegisterCloseOpenGesture();
             await RegisterLikeGesture();
             await RegisterOkGesture();
+            await RegisterRockOnGesture();
         }
 
         private static async Task RegisterRotateRightGesture()
@@ -58,6 +74,9 @@ namespace KinectProject
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _rotateGestureR = new Gesture("RotateRight", hold, rotate);
             _rotateGestureR.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Yellow);
+
+            //InputSimulator sim = new InputSimulator();
+            //sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
 
             // Step 3: Register the gesture             
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
@@ -80,6 +99,10 @@ namespace KinectProject
             _rotateGestureL = new Gesture("RotateLeft", hold, rotate);
             _rotateGestureL.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkYellow);
 
+
+
+
+
             // Step 3: Register the gesture             
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
             // detected even it was initiated not by this application or if the this application isn't in focus
@@ -89,15 +112,18 @@ namespace KinectProject
         private static async Task RegisterDropTheMicGesture()
         {
             // Our starting pose is a full fist pointing down and/or forward
-            var fist = new HandPose("Fist", new PalmPose(new AnyHandContext(), PoseDirection.Down ),
+            var fist = new HandPose("Fist", new PalmPose(new AnyHandContext(), PoseDirection.Down),
                                                 new FingerPose(new[] { Finger.Index, Finger.Middle, Finger.Ring }, FingerFlexion.Folded));
             // Final pose is when the hand is "open" i.e. spread
-            var spread = new HandPose("Spread", new PalmPose(new AnyHandContext(), PoseDirection.Down ),
+            var spread = new HandPose("Spread", new PalmPose(new AnyHandContext(), PoseDirection.Down),
                                                 new FingerPose(new[] { Finger.Thumb, Finger.Index, Finger.Middle, Finger.Ring }, FingerFlexion.Open));
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: fist -> spread
             _dropTheMicGesture = new Gesture("DropTheMic", fist, spread);
             _dropTheMicGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Blue);
+
+            //InputSimulator sim = new InputSimulator();
+            //sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_STOP);
 
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
             // detected even it was initiated not by this application or if the this application isn't in focus
@@ -117,6 +143,9 @@ namespace KinectProject
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _OpenPalmGesture = new Gesture("PlayGesture", Close, Open);
             _OpenPalmGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkBlue);
+
+            //InputSimulator sim = new InputSimulator();
+            //sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
 
             // Step 3: Register the gesture             
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
@@ -148,22 +177,45 @@ namespace KinectProject
 
         private static async Task RegisterOkGesture()
         {
-            var Ok = new HandPose("Oks", new FingerPose(new[] { Finger.Thumb }, FingerFlexion.Folded, PoseDirection.Left),
+            var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
+
+            var Ok = new HandPose("Oks", new FingerPose(new[] { Finger.Thumb }, FingerFlexion.Folded, PoseDirection.Undefined),
                                              new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Thumb),
                                              new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb),
                                              new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Middle),
-                                             new FingertipDistanceRelation(Finger.Middle, RelativeDistance.NotTouching, Finger.Ring),
-                                             new FingertipDistanceRelation(Finger.Ring, RelativeDistance.NotTouching, Finger.Pinky));
+                                             new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open));
 
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-            _OkGesture = new Gesture("OkGesture", Ok);
+            _OkGesture = new Gesture("OkGesture", Iddle, Ok);
             _OkGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkRed);
+
 
             // Step 3: Register the gesture             
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
             // detected even it was initiated not by this application or if the this application isn't in focus
             await _gesturesService.RegisterGesture(_OkGesture, isGlobal: true);
+        }
+
+        private static async Task RegisterRockOnGesture()
+        {
+            var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
+
+            var RockOn = new HandPose("Rock", new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Thumb }, FingerFlexion.Folded),
+                                             new FingertipDistanceRelation(Finger.Middle, RelativeDistance.Touching, Finger.Ring),
+                                             new FingertipDistanceRelation(Finger.Thumb, RelativeDistance.Touching, Finger.Ring | Finger.Middle),
+                                             new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb),
+                                             new FingerPose(new[] { Finger.Index, Finger.Pinky }, FingerFlexion.Open));
+
+
+            // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
+            _RockGesture = new Gesture("RockOnGesture", Iddle, RockOn);
+            _RockGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkMagenta);
+
+            // Step 3: Register the gesture             
+            // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
+            // detected even it was initiated not by this application or if the this application isn't in focus
+            await _gesturesService.RegisterGesture(_RockGesture, isGlobal: true);
         }
 
         private static void OnGestureDetected(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)
