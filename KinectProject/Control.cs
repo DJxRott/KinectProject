@@ -41,7 +41,6 @@ namespace KinectProject
             await RegisterDropTheMicGesture();
             await RegisterCloseOpenGesture();
             await RegisterLikeGesture();
-
             await RegisterOkGesture();
         }
 
