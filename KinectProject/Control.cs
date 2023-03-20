@@ -42,7 +42,7 @@ namespace MusicControl
                 break;
             }
         }
-        }
+    }
 
         private static async Task RegisterGestures(string gesturesServiceHostName)
         {
@@ -75,6 +75,8 @@ namespace MusicControl
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _rotateGestureR = new Gesture("RotateRight", hold, rotate);
             _rotateGestureR.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Yellow);
+            InputSimulator sim = new InputSimulator();
+            _rotateGestureR.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP, VirtualKeyCode.VOLUME_UP, VirtualKeyCode.VOLUME_UP);
 
             //InputSimulator sim = new InputSimulator();
             //sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
@@ -99,10 +101,8 @@ namespace MusicControl
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _rotateGestureL = new Gesture("RotateLeft", hold, rotate);
             _rotateGestureL.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkYellow);
-
-
-
-
+            InputSimulator sim = new InputSimulator();
+            _rotateGestureL.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN, VirtualKeyCode.VOLUME_DOWN, VirtualKeyCode.VOLUME_DOWN);
 
             // Step 3: Register the gesture             
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
@@ -122,6 +122,8 @@ namespace MusicControl
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: fist -> spread
             _dropTheMicGesture = new Gesture("DropTheMic", fist, spread);
             _dropTheMicGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Blue);
+            InputSimulator sim = new InputSimulator();
+            _dropTheMicGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_STOP);
 
             //InputSimulator sim = new InputSimulator();
             //sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_STOP);
@@ -170,6 +172,9 @@ namespace MusicControl
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: fist -> Like
             _likeGesture = new Gesture("LikeGesture", fist, like);
             _likeGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Red);
+            InputSimulator sim = new InputSimulator();
+            _likeGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK);
+
 
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
             // detected even it was initiated not by this application or if the this application isn't in focus
@@ -190,6 +195,8 @@ namespace MusicControl
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _OkGesture = new Gesture("OkGesture", Iddle, Ok);
             _OkGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkRed);
+            InputSimulator sim = new InputSimulator();
+            _OkGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK);
 
 
             // Step 3: Register the gesture             
