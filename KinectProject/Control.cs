@@ -3,6 +3,8 @@ using Microsoft.Gestures.Endpoint;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WindowsInput;
+using WindowsInput.Native;
 //InputSiulator libraries for Virtual Keys
 
 namespace MusicControl
@@ -31,16 +33,15 @@ namespace MusicControl
             // One can optionally pass the hostname/IP address where the gestures service is hosted
             var gesturesServiceHostName = !args.Any() ? "localhost" : args[0];
             RegisterGestures(gesturesServiceHostName).Wait();
-            /*while (true)
-            {*/
-            //ConsoleKeyInfo key = 
-            Console.ReadKey();
+            while (true)
+            {
+            ConsoleKeyInfo key = Console.ReadKey();
 
-            /*if (key.Key == ConsoleKey.Escape)
+            if (key.Key == ConsoleKey.Escape)
             {
                 break;
             }
-        }*/
+        }
         }
 
         private static async Task RegisterGestures(string gesturesServiceHostName)
@@ -203,14 +204,16 @@ namespace MusicControl
 
             var RockOn = new HandPose("Rock", new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Thumb }, FingerFlexion.Folded),
                                              new FingertipDistanceRelation(Finger.Middle, RelativeDistance.Touching, Finger.Ring),
-                                             new FingertipDistanceRelation(Finger.Thumb, RelativeDistance.Touching, Finger.Ring | Finger.Middle),
+                                             new FingertipDistanceRelation(Finger.Thumb, RelativeDistance.Touching, Finger.Ring),
                                              new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb),
                                              new FingerPose(new[] { Finger.Index, Finger.Pinky }, FingerFlexion.Open));
 
-
+            
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _RockGesture = new Gesture("RockOnGesture", Iddle, RockOn);
             _RockGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkMagenta);
+            InputSimulator sim = new InputSimulator();
+            _RockGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
 
             // Step 3: Register the gesture             
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
@@ -218,12 +221,14 @@ namespace MusicControl
             await _gesturesService.RegisterGesture(_RockGesture, isGlobal: true);
         }
 
+
         private static void OnGestureDetected(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("Gesture detected! : ");
             Console.ForegroundColor = foregroundColor;
             Console.WriteLine(args.GestureSegment.Name);
+           
             Console.ResetColor();
         }
     }
