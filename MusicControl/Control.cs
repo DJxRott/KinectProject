@@ -7,7 +7,7 @@ using WindowsInput;
 using WindowsInput.Native;
 //InputSiulator libraries for Virtual Keys
 
-namespace MusicControl
+namespace SighLanguage
 {
     class Program
     {
@@ -232,6 +232,8 @@ namespace MusicControl
             // detected even it was initiated not by this application or if the this application isn't in focus
             await _gesturesService.RegisterGesture(_RockGesture, isGlobal: true);
         }
+
+
 
 
         private static void OnGestureDetected(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)

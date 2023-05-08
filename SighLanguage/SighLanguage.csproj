@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Gestures.Common.Core">
+      <HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\Microsoft.Gestures.Common.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Gestures.Core">
+      <HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\Microsoft.Gestures.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Gestures.Protocol.Core">
+      <HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\Microsoft.Gestures.Protocol.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Gestures.Proxy.Core">
+      <HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\Microsoft.Gestures.Proxy.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
