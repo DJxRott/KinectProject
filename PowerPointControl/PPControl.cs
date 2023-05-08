@@ -7,7 +7,7 @@ using WindowsInput;
 using WindowsInput.Native;
 //InputSiulator libraries for Virtual Keys
 
-namespace MusicControl
+namespace SighLanguage
 {
     class Program
     {
@@ -18,11 +18,9 @@ namespace MusicControl
         private static Gesture _rotateGestureL;
         private static Gesture _dropTheMicGesture;
         private static Gesture _likeGesture;
-        private static Gesture _OpenPalmGesture;
+        private static Gesture _DislikeGesture;
         private static Gesture _OkGesture;
         private static Gesture _RockGesture;
-
-
 
 
         static void Main(string[] args)
@@ -30,7 +28,7 @@ namespace MusicControl
             Console.Title = "GesturesServiceStatus[Initializing]";
             Console.WriteLine("press 'esc' to exit");
 
-            // One can optionally pass the hostname/IP address where the gestures service is hosted
+            // Inicializando el servicio de los gestos
             var gesturesServiceHostName = !args.Any() ? "localhost" : args[0];
             RegisterGestures(gesturesServiceHostName).Wait();
             while (true)
@@ -51,16 +49,16 @@ namespace MusicControl
             _gesturesService.StatusChanged += (s, arg) => Console.Title = $"GesturesServiceStatus [{arg.Status}]";
             await _gesturesService.ConnectAsync();
 
-            // Step 2: Define bunch of custom Gestures, each detection of the gesture will emit some message into the console
-            await RegisterRotateRightGesture();
-            await RegisterRotateLeftGesture();
-            await RegisterDropTheMicGesture();
-            await RegisterCloseOpenGesture();
-            await RegisterLikeGesture();
-            await RegisterOkGesture();
-            await RegisterRockOnGesture();
+            // Gestos a usar
+            await RegisterRotateRightGesture();//Siguiente Diapositiva
+            await RegisterRotateLeftGesture();//Anterior Diapositiva
+            await RegisterDropTheMicGesture();//Cerrar pantalla completa
+            await RegisterLikeGesture();//Zoom in
+            await RegisterDisLikeGesture();//Zoom out
+            await RegisterOkGesture();//Abrir presentacion en pantalla completa
+            await RegisterRockOnGesture();//Zoom to fit
         }
-
+        //Siguiente Diapositiva
         private static async Task RegisterRotateRightGesture()
         {
             // Start with defining the first pose, ...
@@ -76,7 +74,7 @@ namespace MusicControl
             _rotateGestureR = new Gesture("RotateRight", hold, rotate);
             _rotateGestureR.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Yellow);
             InputSimulator sim = new InputSimulator();
-            _rotateGestureR.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP, VirtualKeyCode.VOLUME_UP, VirtualKeyCode.VOLUME_UP);
+            _rotateGestureR.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
 
             //InputSimulator sim = new InputSimulator();
             //sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
@@ -87,6 +85,7 @@ namespace MusicControl
             await _gesturesService.RegisterGesture(_rotateGestureR, isGlobal: true);
         }
 
+        //Anterior Diapositiva
         private static async Task RegisterRotateLeftGesture()
         {
             // Start with defining the first pose, ...
@@ -102,7 +101,7 @@ namespace MusicControl
             _rotateGestureL = new Gesture("RotateLeft", hold, rotate);
             _rotateGestureL.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkYellow);
             InputSimulator sim = new InputSimulator();
-            _rotateGestureL.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_DOWN, VirtualKeyCode.VOLUME_DOWN, VirtualKeyCode.VOLUME_DOWN);
+            _rotateGestureL.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.LEFT);
 
             // Step 3: Register the gesture             
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
@@ -110,6 +109,7 @@ namespace MusicControl
             await _gesturesService.RegisterGesture(_rotateGestureL, isGlobal: true);
         }
 
+        //Cerrar pantalla completa
         private static async Task RegisterDropTheMicGesture()
         {
             // Our starting pose is a full fist pointing down and/or forward
@@ -123,7 +123,7 @@ namespace MusicControl
             _dropTheMicGesture = new Gesture("DropTheMic", fist, spread);
             _dropTheMicGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Blue);
             InputSimulator sim = new InputSimulator();
-            _dropTheMicGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_STOP);
+            _dropTheMicGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.ESCAPE);
 
             //InputSimulator sim = new InputSimulator();
             //sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_STOP);
@@ -133,34 +133,7 @@ namespace MusicControl
             await _gesturesService.RegisterGesture(_dropTheMicGesture, isGlobal: true);
         }
 
-        private static async Task RegisterCloseOpenGesture()
-        {
-            // Start with defining the first pose, ...
-            var Close = new HandPose("Close", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
-                new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
-
-            var Open = new HandPose("Open", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
-                                                      new FingerPose(new AllFingersContext(), FingerFlexion.Open),
-                                                      new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Middle),
-                                                      new FingertipDistanceRelation(Finger.Middle, RelativeDistance.Touching, Finger.Ring),
-                                                      new FingertipDistanceRelation(Finger.Ring, RelativeDistance.Touching, Finger.Pinky));
-
-
-            // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-            _OpenPalmGesture = new Gesture("PlayGesture", Open, Close);
-            _OpenPalmGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkBlue);
-            InputSimulator sim = new InputSimulator();
-            _OpenPalmGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
-
-            //InputSimulator sim = new InputSimulator();
-            //sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
-
-            // Step 3: Register the gesture             
-            // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
-            // detected even it was initiated not by this application or if the this application isn't in focus
-            await _gesturesService.RegisterGesture(_OpenPalmGesture, isGlobal: true);
-        }
-
+        //Zoom in
         private static async Task RegisterLikeGesture()
         {
             // Our starting pose is a fist 
@@ -178,7 +151,7 @@ namespace MusicControl
             _likeGesture = new Gesture("LikeGesture", fist, like);
             _likeGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Red);
             InputSimulator sim = new InputSimulator();
-            _likeGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK);
+            _likeGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.CONTROL, VirtualKeyCode.OEM_PLUS);
 
 
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
@@ -186,6 +159,33 @@ namespace MusicControl
             await _gesturesService.RegisterGesture(_likeGesture, isGlobal: true);
         }
 
+        //Zoom out
+        private static async Task RegisterDisLikeGesture()
+        {
+            // Our starting pose is a fist 
+            var fist = new HandPose("Fist", new PalmPose(new AnyHandContext(), PoseDirection.Left | PoseDirection.Right),
+                                            new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
+
+
+
+            // In the final pose the thumb flexion will open in the "up" direction
+            var like = new HandPose("Like", new PalmPose(new AnyHandContext(), PoseDirection.Left | PoseDirection.Right),
+                                            new FingerPose(new[] { Finger.Index, Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
+                                            new FingerPose(Finger.Thumb, FingerFlexion.Open, PoseDirection.Down));
+
+            // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: fist -> Like
+            _DislikeGesture = new Gesture("DisLikeGesture", fist, like);
+            _DislikeGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Red);
+            InputSimulator sim = new InputSimulator();
+            _DislikeGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.CONTROL, VirtualKeyCode.OEM_MINUS);
+
+
+            // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
+            // detected even it was initiated not by this application or if the this application isn't in focus
+            await _gesturesService.RegisterGesture(_DislikeGesture, isGlobal: true);
+        }
+
+        //Abrir presentacion en pantalla completa
         private static async Task RegisterOkGesture()
         {
             var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
@@ -201,7 +201,7 @@ namespace MusicControl
             _OkGesture = new Gesture("OkGesture", Iddle, Ok);
             _OkGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkRed);
             InputSimulator sim = new InputSimulator();
-            _OkGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK);
+            _OkGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.F5);
 
 
             // Step 3: Register the gesture             
@@ -210,6 +210,7 @@ namespace MusicControl
             await _gesturesService.RegisterGesture(_OkGesture, isGlobal: true);
         }
 
+        //Zoom to fit
         private static async Task RegisterRockOnGesture()
         {
             var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
@@ -225,13 +226,15 @@ namespace MusicControl
             _RockGesture = new Gesture("RockOnGesture", Iddle, RockOn);
             _RockGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkMagenta);
             InputSimulator sim = new InputSimulator();
-            _RockGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
+            _RockGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.LCONTROL, VirtualKeyCode.MENU, VirtualKeyCode.VK_O);
 
             // Step 3: Register the gesture             
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
             // detected even it was initiated not by this application or if the this application isn't in focus
             await _gesturesService.RegisterGesture(_RockGesture, isGlobal: true);
         }
+
+
 
 
         private static void OnGestureDetected(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)

@@ -1,9 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.33403.129
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicControl", "KinectProject\MusicControl.csproj", "{34144CCF-56FA-420D-928D-A1D1AE02DF56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicControl", "MusicControl\MusicControl.csproj", "{34144CCF-56FA-420D-928D-A1D1AE02DF56}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SighLanguage", "SighLanguage\SighLanguage.csproj", "{9887FD84-503F-4CDB-99C4-2CF1F7C7207B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulbControl", "BulbControl\BulbControl.csproj", "{B2D964C3-8A41-43BD-86FC-A62ED52E3307}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIControl", "UIControl\UIControl.csproj", "{0506D386-7170-401E-84EF-468E9FDEF8DF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{34144CCF-56FA-420D-928D-A1D1AE02DF56} = {34144CCF-56FA-420D-928D-A1D1AE02DF56}
+		{9887FD84-503F-4CDB-99C4-2CF1F7C7207B} = {9887FD84-503F-4CDB-99C4-2CF1F7C7207B}
+		{B2D964C3-8A41-43BD-86FC-A62ED52E3307} = {B2D964C3-8A41-43BD-86FC-A62ED52E3307}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerPointControl", "PowerPointControl\PowerPointControl.csproj", "{192680BA-4828-4D84-85B2-7F16B8B3275A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +28,22 @@ Global
 		{34144CCF-56FA-420D-928D-A1D1AE02DF56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34144CCF-56FA-420D-928D-A1D1AE02DF56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34144CCF-56FA-420D-928D-A1D1AE02DF56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9887FD84-503F-4CDB-99C4-2CF1F7C7207B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9887FD84-503F-4CDB-99C4-2CF1F7C7207B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9887FD84-503F-4CDB-99C4-2CF1F7C7207B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9887FD84-503F-4CDB-99C4-2CF1F7C7207B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2D964C3-8A41-43BD-86FC-A62ED52E3307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2D964C3-8A41-43BD-86FC-A62ED52E3307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2D964C3-8A41-43BD-86FC-A62ED52E3307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2D964C3-8A41-43BD-86FC-A62ED52E3307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0506D386-7170-401E-84EF-468E9FDEF8DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0506D386-7170-401E-84EF-468E9FDEF8DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0506D386-7170-401E-84EF-468E9FDEF8DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0506D386-7170-401E-84EF-468E9FDEF8DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{192680BA-4828-4D84-85B2-7F16B8B3275A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{192680BA-4828-4D84-85B2-7F16B8B3275A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{192680BA-4828-4D84-85B2-7F16B8B3275A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{192680BA-4828-4D84-85B2-7F16B8B3275A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
