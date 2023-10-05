@@ -203,8 +203,7 @@ namespace SighLanguage
             
 
             var Ok = new HandPose("Oks", new FingerPose(new[] { Finger.Thumb }, FingerFlexion.Folded, PoseDirection.Undefined),
-                                             new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Thumb),
-                                             new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb),
+                                             new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Thumb),                                             new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb),
                                              new FingertipDistanceRelation(Finger.Middle, RelativeDistance.Touching, Finger.Ring),
                                              new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open, PoseDirection.Up));
 
