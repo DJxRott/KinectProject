@@ -151,7 +151,7 @@ namespace SighLanguage
             // detected even it was initiated not by this application or if the this application isn't in focus
 
             
-                await _gesturesService.RegisterGesture(_Letter_C, isGlobal: true);
+            await _gesturesService.RegisterGesture(_Letter_C, isGlobal: true);
             
         }
 
@@ -204,6 +204,7 @@ namespace SighLanguage
 
             var Ok = new HandPose("Oks", new FingerPose(new[] { Finger.Thumb }, FingerFlexion.Folded, PoseDirection.Undefined),
                                              new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Thumb),
+                                             new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb),
                                              new FingertipDistanceRelation(Finger.Middle, RelativeDistance.Touching, Finger.Ring),
                                              new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open, PoseDirection.Up));
 
@@ -442,6 +443,7 @@ namespace SighLanguage
             // Our starting pose is a full fist pointing down and/or forward
             var fist = new HandPose("Fist", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
                                                 new FingerPose(new[] { Finger.Ring, Finger.Thumb, Finger.Pinky }, FingerFlexion.Folded),
+                                                new FingerPose(Finger.Thumb, PoseDirection.Right),
                                                 new FingerPose(new[] { Finger.Index, Finger.Middle }, FingerFlexion.Open, PoseDirection.Up  ),
                                                 new FingertipPlacementRelation(Finger.Index, RelativePlacement.InFront, Finger.Middle),
                                                 new FingertipPlacementRelation(Finger.Thumb, RelativePlacement.InFront, Finger.Ring));
@@ -629,11 +631,11 @@ namespace SighLanguage
 
             if (detectionCount % 4 == 0)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Letra: ");
-                Console.ForegroundColor = foregroundColor;
-                Console.WriteLine(args.GestureSegment.Name);
-                Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Letra: ");
+            Console.ForegroundColor = foregroundColor;
+            Console.WriteLine(args.GestureSegment.Name);
+            Console.ResetColor();
 
                 detectionCount = 0; // Reiniciar el contador a 0 después de cada 10 detecciones
             }
