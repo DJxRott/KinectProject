@@ -2,7 +2,9 @@
 using Microsoft.Gestures.Endpoint;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using WindowsInput;
 using WindowsInput.Native;
 //InputSiulator libraries for Virtual Keys
@@ -33,15 +35,16 @@ namespace SighLanguage
             // One can optionally pass the hostname/IP address where the gestures service is hosted
             var gesturesServiceHostName = !args.Any() ? "localhost" : args[0];
             RegisterGestures(gesturesServiceHostName).Wait();
-            while (true)
+            Thread.Sleep(999999999);//agregado para que no se cierre la ventana de comandos
+            /*while (true)
             {
-            ConsoleKeyInfo key = Console.ReadKey();
+				ConsoleKeyInfo key = Console.ReadKey();
 
-            if (key.Key == ConsoleKey.Escape)
-            {
+				if (key.Key == ConsoleKey.Escape)
+				{
                 break;
-            }
-        }
+				}
+			}*/
     }
 
         private static async Task RegisterGestures(string gesturesServiceHostName)

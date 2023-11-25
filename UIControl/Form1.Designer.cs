@@ -1,6 +1,6 @@
 ﻿namespace UIControl
 {
-    partial class Form1
+    partial class KinectProject
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,10 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            SuspendLayout();
+            // 
+            // KinectProject
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources._1;
+            ClientSize = new System.Drawing.Size(1600, 900);
+            Name = "KinectProject";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Kinect Project";
+            Load += Form1_Load;
+            ResumeLayout(false);
         }
 
         #endregion

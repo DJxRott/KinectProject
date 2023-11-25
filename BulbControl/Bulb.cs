@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Gestures;
 using Microsoft.Gestures.Endpoint;
 using System.Threading.Tasks;
+using System.Threading;
 
 
 class Bulb
@@ -38,7 +39,8 @@ class Bulb
         // One can optionally pass the hostname/IP address where the gestures service is hosted
         var gesturesServiceHostName = !args.Any() ? "localhost" : args[0];
         RegisterGestures(gesturesServiceHostName).Wait();
-        while (true)
+        Thread.Sleep(100000);//agregado para que no se cierre la ventana de comandos
+        /*while (true)
         {
             ConsoleKeyInfo key = Console.ReadKey();
 
@@ -46,7 +48,7 @@ class Bulb
             {
                 break;
             }
-        }
+        }*/
     }
 
     private static async Task RegisterGestures(string gesturesServiceHostName)
