@@ -2,6 +2,8 @@
 using Microsoft.Gestures.Endpoint;
 using Microsoft.Gestures.Stock.HandMotions;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,14 +51,15 @@ namespace SighLanguage
             // One can optionally pass the hostname/IP address where the gestures service is hosted
             var gesturesServiceHostName = !args.Any() ? "localhost" : args[0];
             RegisterGestures(gesturesServiceHostName).Wait();
-            while (true)
+            Thread.Sleep(999999999);//agregado para que no se cierre la ventana de comandos
+            /*while (true)
             {
                 ConsoleKeyInfo key = Console.ReadKey();
                 if (key.Key == ConsoleKey.Escape)
                 {
                     break;
                 }
-            }
+            }*/
         }
 
         private static async Task RegisterGestures(string gesturesServiceHostName)
@@ -303,8 +306,10 @@ namespace SighLanguage
         {
             // Our starting pose is a full fist pointing down and/or forward
             var fist = new HandPose("Fist", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
-                                                new FingerPose(new[] { Finger.Index, Finger.Middle, Finger.Thumb }, FingerFlexion.Open, PoseDirection.Up),
+                                                new FingerPose(new[] { Finger.Index, Finger.Middle}, FingerFlexion.Open, PoseDirection.Up),
                                                 new FingerPose(Finger.Thumb, PoseDirection.Up),
+                                                new FingertipPlacementRelation(Finger.Thumb, RelativePlacement.Left , Finger.Index),
+                                                new FingertipDistanceRelation(Finger.Thumb, RelativeDistance.Touching, Finger.Index),
                                                 new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Middle) );
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: fist -> spread
@@ -609,7 +614,7 @@ namespace SighLanguage
 
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-            _Letter_Z = new Gesture("Z", Open);
+            _Letter_Z = new Gesture("Z", Open,Move);
             _Letter_Z.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkMagenta);
 
 
@@ -630,11 +635,11 @@ namespace SighLanguage
 
             if (detectionCount % 4 == 0)
             {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Letra: ");
-            Console.ForegroundColor = foregroundColor;
-            Console.WriteLine(args.GestureSegment.Name);
-            Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("Letra: ");
+                Console.ForegroundColor = foregroundColor;
+                Console.WriteLine(args.GestureSegment.Name);
+                Console.ResetColor();
 
                 detectionCount = 0; // Reiniciar el contador a 0 después de cada 10 detecciones
             }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WindowsInput;
 using WindowsInput.Native;
+using System.Threading;
 //InputSiulator libraries for Virtual Keys
 
 namespace SighLanguage
@@ -31,16 +32,17 @@ namespace SighLanguage
             // Inicializando el servicio de los gestos
             var gesturesServiceHostName = !args.Any() ? "localhost" : args[0];
             RegisterGestures(gesturesServiceHostName).Wait();
-            while (true)
+            Thread.Sleep(100000);//agregado para que no se cierre la ventana de comandos
+            /*while (true)
             {
-            ConsoleKeyInfo key = Console.ReadKey();
+                ConsoleKeyInfo key = Console.ReadKey();
 
-            if (key.Key == ConsoleKey.Escape)
-            {
-                break;
-            }
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    break;
+                }
+            }*/
         }
-    }
 
         private static async Task RegisterGestures(string gesturesServiceHostName)
         {

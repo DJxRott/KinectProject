@@ -6,4 +6,28 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+
+	<ItemGroup>
+		<Reference Include="Microsoft.Gestures.Common.Core">
+			<HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\Microsoft.Gestures.Common.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Gestures.Core">
+			<HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\SDK\.netcore\Microsoft.Gestures.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Gestures.Protocol.Core">
+			<HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\SDK\.netcore\Microsoft.Gestures.Protocol.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Gestures.Proxy.Core">
+			<HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\SDK\.netcore\Microsoft.Gestures.Proxy.Core.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BulbControl\BulbControl.csproj" />
+    <ProjectReference Include="..\MusicControl\MusicControl.csproj" />
+    <ProjectReference Include="..\PowerPointControl\PowerPointControl.csproj" />
+    <ProjectReference Include="..\SighLanguage\SighLanguage.csproj" />
+  </ItemGroup>
+	
+
 </Project>
