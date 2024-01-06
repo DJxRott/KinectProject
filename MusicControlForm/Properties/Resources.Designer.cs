@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UIControl.Properties {
+namespace MusicControlForm.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace UIControl.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("UIControl.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MusicControlForm.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -73,9 +73,19 @@ namespace UIControl.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bombillo_dial_sin_fondo {
+        internal static System.Drawing.Bitmap Chill2 {
             get {
-                object obj = ResourceManager.GetObject("bombillo_dial_sin_fondo", resourceCulture);
+                object obj = ResourceManager.GetObject("Chill2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Drop_the_Mic {
+            get {
+                object obj = ResourceManager.GetObject("Drop_the_Mic", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +103,9 @@ namespace UIControl.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap music {
+        internal static System.Drawing.Bitmap Media_Next_Track {
             get {
-                object obj = ResourceManager.GetObject("music", resourceCulture);
+                object obj = ResourceManager.GetObject("Media_Next_Track", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,29 +113,9 @@ namespace UIControl.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap music_dial_sin_fondo_1 {
+        internal static System.Drawing.Bitmap Media_Prev_Track {
             get {
-                object obj = ResourceManager.GetObject("music_dial_sin_fondo_1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap One {
-            get {
-                object obj = ResourceManager.GetObject("One", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap pdf_dial_sin_fondo {
-            get {
-                object obj = ResourceManager.GetObject("pdf_dial_sin_fondo", resourceCulture);
+                object obj = ResourceManager.GetObject("Media_Prev_Track", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +143,9 @@ namespace UIControl.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap sena_dial_sin_fondo {
+        internal static System.Drawing.Bitmap Rock_On {
             get {
-                object obj = ResourceManager.GetObject("sena_dial_sin_fondo", resourceCulture);
+                object obj = ResourceManager.GetObject("Rock_On", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +153,19 @@ namespace UIControl.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap two {
+        internal static System.Drawing.Bitmap Volume_Down {
             get {
-                object obj = ResourceManager.GetObject("two", resourceCulture);
+                object obj = ResourceManager.GetObject("Volume_Down", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Volume_Up {
+            get {
+                object obj = ResourceManager.GetObject("Volume_Up", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

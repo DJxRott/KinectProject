@@ -1,76 +1,71 @@
-﻿using Microsoft.Gestures;
-using Microsoft.Gestures.Endpoint;
-using System;
-using System.Linq;
-using System.Threading;
+﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using Microsoft.Gestures;
+using Microsoft.Gestures.Endpoint;
 using WindowsInput;
 using WindowsInput.Native;
-//InputSiulator libraries for Virtual Keys
 
-namespace SighLanguage
+
+namespace UIControl
 {
-    class Program
+    public partial class KMusicForm : Form
     {
 
-        //Gestures Variables
         private static GesturesServiceEndpoint _gesturesService;
-        private static Gesture _rotateGestureR;
-        private static Gesture _rotateGestureL;
-        private static Gesture _dropTheMicGesture;
-        private static Gesture _likeGesture;
-        private static Gesture _OpenPalmGesture;
-        private static Gesture _OkGesture;
-        private static Gesture _RockGesture;
+        private static Gesture _rotateGestureR; //Subir Volumen
+        private static Gesture _rotateGestureL; //Bajar Volumen
+        private static Gesture _dropTheMicGesture; //Mute Volumen
+        private static Gesture _RotateRMedia; //Media Next
+        private static Gesture _RotateLMedia; //Media Back
+        private static Gesture _RockGesture; //Play/Pause
 
-
-
-
-        static void Main(string[] args)
+        private void Form2_Load(object sender, EventArgs e)
         {
-            Console.Title = "GesturesServiceStatus[Initializing]";
-            Console.WriteLine("press 'esc' to exit");
+            this.Text = "Music Control!";
+        }
+
+        public KMusicForm()
+        {
+            InitializeComponent();
+            InitializeGestures();
+        }
+
+
+        private async void InitializeGestures()
+        {
+
 
             // One can optionally pass the hostname/IP address where the gestures service is hosted
-            var gesturesServiceHostName = !args.Any() ? "localhost" : args[0];
-            RegisterGestures(gesturesServiceHostName).Wait();
-            Thread.Sleep(999999999);//agregado para que no se cierre la ventana de comandos
-            /*while (true)
-            {
-				ConsoleKeyInfo key = Console.ReadKey();
-
-				if (key.Key == ConsoleKey.Escape)
-				{
-                break;
-				}
-			}*/
-    }
+            var gesturesServiceHostName = "localhost";
+            await RegisterGestures(gesturesServiceHostName);
+        }
 
         private static async Task RegisterGestures(string gesturesServiceHostName)
         {
             // Step 1: Connect to Microsoft Gestures service            
             _gesturesService = GesturesServiceEndpointFactory.Create(gesturesServiceHostName);
-            _gesturesService.StatusChanged += (s, arg) => Console.Title = $"GesturesServiceStatus [{arg.Status}]";
             await _gesturesService.ConnectAsync();
 
             // Step 2: Define bunch of custom Gestures, each detection of the gesture will emit some message into the console
             await RegisterRotateRightGesture();
             await RegisterRotateLeftGesture();
             await RegisterDropTheMicGesture();
-            await RegisterCloseOpenGesture();
-            await RegisterLikeGesture();
-            await RegisterOkGesture();
+            await RegisterRotateRMedia();
+            await RegisterRotateLMedia();
             await RegisterRockOnGesture();
         }
 
-        private static async Task RegisterRotateRightGesture()
+        private static async Task RegisterRotateRightGesture()//Subir Volumen
         {
             // Start with defining the first pose, ...
             var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
+                                            new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
                                             new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
                                             new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb));
             // ... define the second pose, ...
             var rotate = new HandPose("Rotate", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
+                                                new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
                                                 new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
                                                 new FingertipPlacementRelation(Finger.Index, RelativePlacement.Right, Finger.Thumb));
 
@@ -89,14 +84,16 @@ namespace SighLanguage
             await _gesturesService.RegisterGesture(_rotateGestureR, isGlobal: true);
         }
 
-        private static async Task RegisterRotateLeftGesture()
+        private static async Task RegisterRotateLeftGesture()//Bajar Volumen
         {
             // Start with defining the first pose, ...
             var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Thumb }, FingerFlexion.Open, PoseDirection.Forward),
+                                            new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
                                             new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
                                             new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb));
             // ... define the second pose, ...
             var rotate = new HandPose("Rotate", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
+                                                new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
                                                 new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
                                                 new FingertipPlacementRelation(Finger.Index, RelativePlacement.Left, Finger.Thumb));
 
@@ -112,7 +109,7 @@ namespace SighLanguage
             await _gesturesService.RegisterGesture(_rotateGestureL, isGlobal: true);
         }
 
-        private static async Task RegisterDropTheMicGesture()
+        private static async Task RegisterDropTheMicGesture()//Vol Mute
         {
             // Our starting pose is a full fist pointing down and/or forward
             var fist = new HandPose("Fist", new PalmPose(new AnyHandContext(), PoseDirection.Down),
@@ -125,7 +122,7 @@ namespace SighLanguage
             _dropTheMicGesture = new Gesture("DropTheMic", fist, spread);
             _dropTheMicGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Blue);
             InputSimulator sim = new InputSimulator();
-            _dropTheMicGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_STOP);
+            _dropTheMicGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
 
             //InputSimulator sim = new InputSimulator();
             //sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_STOP);
@@ -135,84 +132,59 @@ namespace SighLanguage
             await _gesturesService.RegisterGesture(_dropTheMicGesture, isGlobal: true);
         }
 
-        private static async Task RegisterCloseOpenGesture()
+        private static async Task RegisterRotateRMedia()//Media Next
         {
             // Start with defining the first pose, ...
-            var Close = new HandPose("Close", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
-                new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
-
-            var Open = new HandPose("Open", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
-                                                      new FingerPose(new AllFingersContext(), FingerFlexion.Open),
-                                                      new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Middle),
-                                                      new FingertipDistanceRelation(Finger.Middle, RelativeDistance.Touching, Finger.Ring),
-                                                      new FingertipDistanceRelation(Finger.Ring, RelativeDistance.Touching, Finger.Pinky));
-
-
-            // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-            _OpenPalmGesture = new Gesture("PlayGesture", Open, Close);
-            _OpenPalmGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkBlue);
-            InputSimulator sim = new InputSimulator();
-            _OpenPalmGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_MUTE);
-
-            //InputSimulator sim = new InputSimulator();
-            //sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PLAY_PAUSE);
-
-            // Step 3: Register the gesture             
-            // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
-            // detected even it was initiated not by this application or if the this application isn't in focus
-            await _gesturesService.RegisterGesture(_OpenPalmGesture, isGlobal: true);
-        }
-
-        private static async Task RegisterLikeGesture()
-        {
-            // Our starting pose is a fist 
-            var fist = new HandPose("Fist", new PalmPose(new AnyHandContext(), PoseDirection.Left | PoseDirection.Right),
-                                            new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
-
-
-
-            // In the final pose the thumb flexion will open in the "up" direction
-            var like = new HandPose("Like", new PalmPose(new AnyHandContext(), PoseDirection.Left | PoseDirection.Right),
-                                            new FingerPose(new[] { Finger.Index, Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
-                                            new FingerPose(Finger.Thumb, FingerFlexion.Open, PoseDirection.Up));
+            var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
+                                            new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open),
+                                            new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
+                                            new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb));
+            // ... define the second pose, ...
+            var rotate = new HandPose("Rotate", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
+                                                new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open),
+                                                new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
+                                                new FingertipPlacementRelation(Finger.Index, RelativePlacement.Right, Finger.Thumb));
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: fist -> Like
-            _likeGesture = new Gesture("LikeGesture", fist, like);
-            _likeGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Red);
+            _RotateRMedia = new Gesture("RotateRMedia", hold, rotate);
+            _RotateRMedia.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Red);
             InputSimulator sim = new InputSimulator();
-            _likeGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK);
+            _RotateRMedia.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_NEXT_TRACK);
 
 
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
             // detected even it was initiated not by this application or if the this application isn't in focus
-            await _gesturesService.RegisterGesture(_likeGesture, isGlobal: true);
+            await _gesturesService.RegisterGesture(_RotateRMedia, isGlobal: true);
         }
 
-        private static async Task RegisterOkGesture()
+        private static async Task RegisterRotateLMedia()//Media Prev
         {
-            var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
+            var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Thumb }, FingerFlexion.Open, PoseDirection.Forward),
+                                            new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open),
+                                            new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
+                                            new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb));
+            // ... define the second pose, ...
+            var rotate = new HandPose("Rotate", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
+                                                new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open),
+                                                new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
+                                                new FingertipPlacementRelation(Finger.Index, RelativePlacement.Left, Finger.Thumb));
 
-            var Ok = new HandPose("Oks", new FingerPose(new[] { Finger.Thumb }, FingerFlexion.Folded, PoseDirection.Undefined),
-                                             new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Thumb),
-                                             new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb),
-                                             new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Middle),
-                                             new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open));
 
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-            _OkGesture = new Gesture("OkGesture", Iddle, Ok);
-            _OkGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkRed);
+            _RotateLMedia = new Gesture("RotateLMedia", hold, rotate);
+            _RotateLMedia.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkRed);
             InputSimulator sim = new InputSimulator();
-            _OkGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK);
+            _RotateLMedia.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.MEDIA_PREV_TRACK);
 
 
             // Step 3: Register the gesture             
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
             // detected even it was initiated not by this application or if the this application isn't in focus
-            await _gesturesService.RegisterGesture(_OkGesture, isGlobal: true);
+            await _gesturesService.RegisterGesture(_RotateLMedia, isGlobal: true);
         }
 
-        private static async Task RegisterRockOnGesture()
+        private static async Task RegisterRockOnGesture()//Play/Pause
         {
             var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
 
@@ -222,7 +194,7 @@ namespace SighLanguage
                                              new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb),
                                              new FingerPose(new[] { Finger.Index, Finger.Pinky }, FingerFlexion.Open));
 
-            
+
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _RockGesture = new Gesture("RockOnGesture", Iddle, RockOn);
             _RockGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkMagenta);
@@ -235,16 +207,49 @@ namespace SighLanguage
             await _gesturesService.RegisterGesture(_RockGesture, isGlobal: true);
         }
 
+
         private static void OnGestureDetected(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("Gesture detected! : ");
             Console.ForegroundColor = foregroundColor;
             Console.WriteLine(args.GestureSegment.Name);
-           
+
             Console.ResetColor();
         }
+
+
+        /*static void Executor(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)
+        {
+            string rutaArchivoExe = @"C:\Users\mitch\OneDrive\Documents\Visual Studio Projects\KinectProject\MusicControl\bin\Debug\netcoreapp3.1\MusicControl.exe"; // Reemplaza con la ruta completa de tu archivo .bat
+
+
+            ProcessStartInfo processInfo = new ProcessStartInfo
+            {
+                FileName = rutaArchivoExe,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = false,
+            };
+
+            Process process = new Process
+            {
+                StartInfo = processInfo
+            };
+
+            process.Start();
+            StreamReader reader = process.StandardOutput;
+            string salida = reader.ReadToEnd();
+            Console.WriteLine(salida);
+
+            process.WaitForExit();
+
+        }*/
     }
 
 
+
 }
+
+

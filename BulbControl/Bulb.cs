@@ -9,11 +9,13 @@ using System.Threading;
 
 class Bulb
 {
-
+    /// <summary>
+    ///////////////////////////////////////////////////////////OJO FALTA AGREGAR GESTO PARA VALIDAR EL BRILLO DEL BOMBILLO
+    /// </summary>
     //Gestures Variables
     private static GesturesServiceEndpoint _gesturesService;
-    private static Gesture _rotateGestureR;
-    private static Gesture _rotateGestureL;
+    private static Gesture _rotateHSGestureR;
+    private static Gesture _rotateHSGestureL;
     private static Gesture _One;
     private static Gesture _Two;
     private static Gesture _Three;
@@ -59,8 +61,8 @@ class Bulb
         await _gesturesService.ConnectAsync();
 
         // Step 2: Define bunch of custom Gestures, each detection of the gesture will emit some message into the console
-        await RegisterRotateRightGesture();
-        await RegisterRotateLeftGesture();
+        await RegisterHandShakeRightGesture();
+        await RegisterHandShakeLeftGesture();
         await RegisterOneGesture();
         await RegisterTwoGesture();
         await RegisterThreeGesture();
@@ -69,60 +71,63 @@ class Bulb
 
     }
 
-    private static async Task RegisterRotateRightGesture()
+    private static async Task RegisterHandShakeRightGesture()
     {
         // Start with defining the first pose, ...
-        var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
-                                        new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
-                                        new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb));
+        var front = new HandPose("Front", new FingerPose(new AllFingersContext(), FingerFlexion.Open, PoseDirection.Forward),
+                                          new PalmPose(new AnyHandContext(), PoseDirection.Left));
         // ... define the second pose, ...
-        var rotate = new HandPose("Rotate", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
-                                            new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
-                                            new FingertipPlacementRelation(Finger.Index, RelativePlacement.Right, Finger.Thumb));
+        var right = new HandPose("Right", new FingerPose(new AllFingersContext(), FingerFlexion.Open),
+                                          new FingerPose(new[] {Finger.Index, Finger.Middle, Finger.Ring,Finger.Pinky}, PoseDirection.Right ),
+                                          new FingerPose(Finger.Thumb, PoseDirection.Up),
+                                          new PalmPose(new AnyHandContext(), PoseDirection.Forward));
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-        _rotateGestureR = new Gesture("RotateRight", hold, rotate);
-        _rotateGestureR.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Yellow);
-        _rotateGestureR.Triggered += (s, e) => Executor(s, e, ConsoleColor.Yellow);
+        _rotateHSGestureR = new Gesture("HandshakeRight", front, right);
+        _rotateHSGestureR.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Yellow);
+
+        //InputSimulator sim = new InputSimulator();
+        //sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
 
         // Step 3: Register the gesture             
         // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
         // detected even it was initiated not by this application or if the this application isn't in focus
-        await _gesturesService.RegisterGesture(_rotateGestureR, isGlobal: true);
+        await _gesturesService.RegisterGesture(_rotateHSGestureR, isGlobal: true);
     }
 
-    private static async Task RegisterRotateLeftGesture()
+    //Anterior Diapositiva
+    private static async Task RegisterHandShakeLeftGesture()
     {
         // Start with defining the first pose, ...
-        var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Thumb }, FingerFlexion.Open, PoseDirection.Forward),
-                                        new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
-                                        new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb));
+        var front = new HandPose("Front", new FingerPose(new AllFingersContext(), FingerFlexion.Open, PoseDirection.Forward),
+                                          new PalmPose(new AnyHandContext(), PoseDirection.Left));
         // ... define the second pose, ...
-        var rotate = new HandPose("Rotate", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
-                                            new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
-                                            new FingertipPlacementRelation(Finger.Index, RelativePlacement.Left, Finger.Thumb));
+        var left = new HandPose("Left", new FingerPose(new AllFingersContext(), FingerFlexion.Open),
+                                        new FingerPose(new[] { Finger.Index, Finger.Middle, Finger.Ring, Finger.Pinky }, PoseDirection.Left),
+                                        new FingerPose(Finger.Thumb, PoseDirection.Up),
+                                        new PalmPose(new AnyHandContext(), PoseDirection.Backward));
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-        _rotateGestureL = new Gesture("RotateLeft", hold, rotate);
-        _rotateGestureL.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkYellow);
-        _rotateGestureL.Triggered += (s, e) => Executor(s, e, ConsoleColor.DarkYellow);
+        _rotateHSGestureL = new Gesture("HandshakeLeft", front, left);
+        _rotateHSGestureL.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkYellow);
 
         // Step 3: Register the gesture             
         // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
         // detected even it was initiated not by this application or if the this application isn't in focus
-        await _gesturesService.RegisterGesture(_rotateGestureL, isGlobal: true);
+        await _gesturesService.RegisterGesture(_rotateHSGestureL, isGlobal: true);
     }
 
     private static async Task RegisterOneGesture()
     {
         // Start with defining the first pose, ...
+        var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
 
         var hold = new HandPose("Hold", new FingerPose(Finger.Index, FingerFlexion.Open, PoseDirection.Up),
                                         new FingerPose(new[] { Finger.Thumb, Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
                                         new PalmPose( new AnyHandContext(), PoseDirection.Forward));
        
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-        _One = new Gesture("One", hold);
+        _One = new Gesture("One", Iddle, hold);
         _One.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkRed);
         _One.Triggered += (s, e) => Executor(s, e, ConsoleColor.DarkRed);
 
@@ -134,13 +139,15 @@ class Bulb
     private static async Task RegisterTwoGesture()
     {
         // Start with defining the first pose, ...
+        var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
+
 
         var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Index, Finger.Middle }, FingerFlexion.Open, PoseDirection.Up),
                                         new FingerPose(new[] { Finger.Thumb, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
                                         new PalmPose(new AnyHandContext(), PoseDirection.Forward));
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-        _Two = new Gesture("Two", hold);
+        _Two = new Gesture("Two", Iddle, hold);
         _Two.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Green);
         _Two.Triggered += (s, e) => Executor(s, e, ConsoleColor.Green);
 
@@ -153,12 +160,14 @@ class Bulb
     {
         // Start with defining the first pose, ...
 
+        var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
+
         var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Index, Finger.Middle, Finger.Ring }, FingerFlexion.Open, PoseDirection.Up),
                                         new FingerPose(new[] { Finger.Thumb, Finger.Pinky }, FingerFlexion.Folded),
                                         new PalmPose(new AnyHandContext(), PoseDirection.Forward));
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-        _Three = new Gesture("Three", hold);
+        _Three = new Gesture("Three", Iddle, hold);
         _Three.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Blue);
         _Three.Triggered += (s, e) => Executor(s, e, ConsoleColor.Blue);
 
@@ -171,13 +180,15 @@ class Bulb
     private static async Task RegisterFourGesture()
     {
         // Start with defining the first pose, ...
+        var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
+
 
         var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Index, Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open, PoseDirection.Up),
                                         new FingerPose( Finger.Thumb, FingerFlexion.Folded),
                                         new PalmPose(new AnyHandContext(), PoseDirection.Forward));
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-        _Four = new Gesture("Four", hold);
+        _Four = new Gesture("Four",Iddle, hold);
         _Four.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.White);
         _Four.Triggered += (s, e) => Executor(s, e, ConsoleColor.White);
 
@@ -190,12 +201,14 @@ class Bulb
     private static async Task RegisterFiveGesture()
     {
         // Start with defining the first pose, ...
+        var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.Folded));
+
 
         var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Thumb, Finger.Index, Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Open, PoseDirection.Up),
                                         new PalmPose(new AnyHandContext(), PoseDirection.Forward));
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-        _Five = new Gesture("Five", hold);
+        _Five = new Gesture("Five",Iddle, hold);
         _Five.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Magenta);
         _Five.Triggered += (s, e) => Executor(s, e, ConsoleColor.Magenta);
 
@@ -312,7 +325,7 @@ class Bulb
     {
         string rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\Login.cmd"; // Reemplaza con la ruta completa de tu archivo .bat
         CC++;
-        if (args.GestureSegment.Name == "RotateLeft")
+        if (args.GestureSegment.Name == "HandshakeLeft")
         {
             Brightness-=20;
             if (Brightness == 80)
@@ -352,7 +365,7 @@ class Bulb
             CC = 0;
         }
 
-        else if (args.GestureSegment.Name == "RotateRight")
+        else if (args.GestureSegment.Name == "HandshakeRight")
         {
             Brightness += 20;
             if (Brightness == 100)
@@ -463,18 +476,24 @@ class Bulb
              StartInfo = processInfo
          };
 
-         process.Start();
+        if (args.GestureSegment.Name != "HandshakeRight")
+        {
+            if (args.GestureSegment.Name != "HandshakeLeft")
+            {
+                process.Start();
+                // Ejecuta el archivo .bat mediante el símbolo del sistema
+                process.StandardInput.WriteLine($"\"{rutaArchivoBat}\"");
+                //process.StandardInput.WriteLine("exit");
 
-            // Ejecuta el archivo .bat mediante el símbolo del sistema
-         process.StandardInput.WriteLine($"\"{rutaArchivoBat}\"");
-            //process.StandardInput.WriteLine("exit");
+                process.Close();
 
-         process.Close();
+                // Puedes mostrar un mensaje cuando el proceso haya terminado
+                /*Console.WriteLine("Proceso .bat completado.");
+                Console.Clear();
+                */
+            }
+        }
 
-            // Puedes mostrar un mensaje cuando el proceso haya terminado
-            /*Console.WriteLine("Proceso .bat completado.");
-            Console.Clear();
-            */
-     }
+    }
     
 }

@@ -17,7 +17,8 @@ namespace UIControl
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new KinectProject());
+            Application.Run(new AlphaForm());
+
         }
     }
 }

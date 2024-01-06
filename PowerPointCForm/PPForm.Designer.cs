@@ -1,6 +1,6 @@
 ﻿namespace UIControl
 {
-    partial class KinectProject
+    partial class PPForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,16 +30,15 @@
         {
             SuspendLayout();
             // 
-            // KinectProject
+            // PPForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources._1;
-            ClientSize = new System.Drawing.Size(1600, 900);
-            Name = "KinectProject";
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "Kinect Project";
-            Load += Form1_Load;
+            BackgroundImage = PowerPointCForm.Properties.Resources.RedStar;
+            BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            ClientSize = new System.Drawing.Size(800, 450);
+            Name = "PPForm";
+            Text = "Power Point Control";
             ResumeLayout(false);
         }
 

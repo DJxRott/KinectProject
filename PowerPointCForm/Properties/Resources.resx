@@ -121,37 +121,4 @@
   <data name="RedStar" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RedStar.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="two" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\two.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="music_dial_sin_fondo_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\music_dial_sin_fondo_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GreenDiamond" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GreenDiamond.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PurpleMusic" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PurpleMusic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="music" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\music.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="One" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\One.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sena_dial_sin_fondo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sena_dial_sin_fondo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BlueSquare" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BlueSquare.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="YellowTriForce" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\YellowTriForce.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="bombillo_dial_sin_fondo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bombillo_dial_sin_fondo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="pdf_dial_sin_fondo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pdf_dial_sin_fondo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>
