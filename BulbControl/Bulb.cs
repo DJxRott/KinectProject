@@ -23,11 +23,10 @@ class Bulb
     private static Gesture _Five;
 
 
-    //Brightness
+    //Variables
     private static int Brightness = 100;
     private static int FirstTime= 0;
-    private static int CommandCounter = 0;//Contador para deteccion continua de letras
-    private static int CC = 0;
+    private static int CC = 0;//Contador para deteccion continua de letras
 
     static void Main(string[] args)
     {
@@ -84,7 +83,7 @@ class Bulb
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
         _rotateHSGestureR = new Gesture("HandshakeRight", front, right);
-        _rotateHSGestureR.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Yellow);
+        _rotateHSGestureR.Triggered += (s, e) => Executor(s, e, ConsoleColor.Yellow);
 
         //InputSimulator sim = new InputSimulator();
         //sim.Keyboard.KeyPress(VirtualKeyCode.VOLUME_UP);
@@ -109,7 +108,7 @@ class Bulb
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
         _rotateHSGestureL = new Gesture("HandshakeLeft", front, left);
-        _rotateHSGestureL.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkYellow);
+        _rotateHSGestureL.Triggered += (s, e) => Executor(s, e, ConsoleColor.DarkYellow);
 
         // Step 3: Register the gesture             
         // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
@@ -128,7 +127,6 @@ class Bulb
        
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
         _One = new Gesture("One", Iddle, hold);
-        _One.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkRed);
         _One.Triggered += (s, e) => Executor(s, e, ConsoleColor.DarkRed);
 
         // Step 3: Register the gesture             
@@ -148,7 +146,6 @@ class Bulb
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
         _Two = new Gesture("Two", Iddle, hold);
-        _Two.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Green);
         _Two.Triggered += (s, e) => Executor(s, e, ConsoleColor.Green);
 
         // Step 3: Register the gesture             
@@ -168,7 +165,6 @@ class Bulb
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
         _Three = new Gesture("Three", Iddle, hold);
-        _Three.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Blue);
         _Three.Triggered += (s, e) => Executor(s, e, ConsoleColor.Blue);
 
         // Step 3: Register the gesture             
@@ -189,7 +185,6 @@ class Bulb
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
         _Four = new Gesture("Four",Iddle, hold);
-        _Four.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.White);
         _Four.Triggered += (s, e) => Executor(s, e, ConsoleColor.White);
 
         // Step 3: Register the gesture             
@@ -209,7 +204,6 @@ class Bulb
 
         // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
         _Five = new Gesture("Five",Iddle, hold);
-        _Five.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Magenta);
         _Five.Triggered += (s, e) => Executor(s, e, ConsoleColor.Magenta);
 
         // Step 3: Register the gesture             
@@ -218,117 +212,30 @@ class Bulb
         await _gesturesService.RegisterGesture(_Five, isGlobal: true);
     }
 
-
-    private static void OnGestureDetected(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)
-    {
-        CommandCounter++;
-
-        if (CommandCounter == 30)
-        {
-
-            if (args.GestureSegment.Name == "One")
-            {
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Gesture detected! : ");
-                    Console.ForegroundColor = foregroundColor;
-                    Console.WriteLine(args.GestureSegment.Name);
-
-                    Console.ResetColor();
-                    CommandCounter = 0;
-            
-            }else if(args.GestureSegment.Name == "Two")
-            {
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Gesture detected! : ");
-                    Console.ForegroundColor = foregroundColor;
-                    Console.WriteLine(args.GestureSegment.Name);
-
-                    Console.ResetColor();
-                    CommandCounter = 0;
-
-            }
-            else if (args.GestureSegment.Name == "Three")
-            {
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Gesture detected! : ");
-                    Console.ForegroundColor = foregroundColor;
-                    Console.WriteLine(args.GestureSegment.Name);
-
-                    Console.ResetColor();
-                    CommandCounter = 0;
-            
-            }
-            else if (args.GestureSegment.Name == "Four")
-            {
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Gesture detected! : ");
-                    Console.ForegroundColor = foregroundColor;
-                    Console.WriteLine(args.GestureSegment.Name);
-
-                    Console.ResetColor();
-                    CommandCounter = 0;
-            
-            }
-            else if (args.GestureSegment.Name == "Five")
-            {
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("Gesture detected! : ");
-                    Console.ForegroundColor = foregroundColor;
-                    Console.WriteLine(args.GestureSegment.Name);
-
-                    Console.ResetColor();
-                    CommandCounter = 0;
-            
-            }
-
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Gesture detected! : ");
-                Console.ForegroundColor = foregroundColor;
-                Console.WriteLine(args.GestureSegment.Name);
-
-                Console.ResetColor();
-                CommandCounter = 0;
-            }
-        }
-
-        if (args.GestureSegment.Name == "RotateRight")
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Gesture detected! : ");
-            Console.ForegroundColor = foregroundColor;
-            Console.WriteLine(args.GestureSegment.Name);
-
-            Console.ResetColor();
-            CommandCounter = 0;
-        }
-        else if (args.GestureSegment.Name == "RotateLeft")
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Gesture detected! : ");
-            Console.ForegroundColor = foregroundColor;
-            Console.WriteLine(args.GestureSegment.Name);
-
-            Console.ResetColor();
-            CommandCounter = 0;
-        }
-    }
-
-
     static void Executor(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)
     {
         string rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\Login.cmd"; // Reemplaza con la ruta completa de tu archivo .bat
+        string rutaArchivoBat2 = @"C:\Users\mitch\OneDrive\Escritorio\Batch\Login.cmd";
+
+
         CC++;
+        if (FirstTime == 0)
+        {
+            rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\Login.cmd"; // Reemplaza con la ruta completa de tu archivo .bat
+            FirstTime++;
+            CC = 0;
+        }
+
         if (args.GestureSegment.Name == "HandshakeLeft")
         {
             Brightness-=20;
-            if (Brightness == 80)
+            if (Brightness == 100)
+            {
+                //Gesto RotateLeft Bajar el Brillo a 80%
+                rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\Brightness80.cmd";
+                Console.Write("Brillo al 80%");
+            }
+            else if (Brightness == 80)
             {
                 //Gesto RotateLeft Bajar el Brillo a 80%
                 rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\Brightness80.cmd";
@@ -413,73 +320,77 @@ class Bulb
             {
 
                 //Gesto One Para Cambiar el color del bombillo a Rojo "R"
-                rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorRed.cmd";
+                rutaArchivoBat2 = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorRed.cmd";
                 Brightness = 100;
-                CC = 0;
+                
 
             }
             else if (args.GestureSegment.Name == "Two")
             {
 
                 //Gesto One Para Cambiar el color del bombillo a Verde "G"
-                rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorGreen.cmd";
+                rutaArchivoBat2 = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorGreen.cmd";
                 Brightness = 100;
-                CC = 0;
+                
 
             }
             else if (args.GestureSegment.Name == "Three")
             {
 
                 //Gesto One Para Cambiar el color del bombillo a Azul "B"
-                rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorBlue.cmd";
+                rutaArchivoBat2 = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorBlue.cmd";
                 Brightness = 100;
-                CC = 0;
+                
 
             }
             else if (args.GestureSegment.Name == "Four")
             {
 
                 //Gesto One Para Cambiar el color del bombillo a Blanco
-                rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorWhite.cmd";
+                rutaArchivoBat2 = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorWhite.cmd";
 
-                CC = 0;
 
             }
             else if (args.GestureSegment.Name == "Five")
             {
 
                 //Gesto One Para Cambiar el color del bombillo a Morado
-                rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorPurple.cmd";
+                rutaArchivoBat2 = @"C:\Users\mitch\OneDrive\Escritorio\Batch\ChangeColorPurple.cmd";
 
-                CC = 0;
+                
             }
-            if (FirstTime == 0)
-            {
-                rutaArchivoBat = @"C:\Users\mitch\OneDrive\Escritorio\Batch\Login.cmd"; // Reemplaza con la ruta completa de tu archivo .bat
-                FirstTime++;
-                CC = 0;
-            }
-
+          
         }
         Console.Write(CC);
 
-        ProcessStartInfo processInfo = new ProcessStartInfo
-        {
+         ProcessStartInfo processInfo = new ProcessStartInfo
+         {
              FileName = "cmd.exe",
              RedirectStandardInput = true,
              UseShellExecute = false,
              CreateNoWindow = true
-        };
 
-         Process process = new Process
-         {
-             StartInfo = processInfo
          };
 
-        if (args.GestureSegment.Name != "HandshakeRight")
+
+
+        Process process = new Process
         {
-            if (args.GestureSegment.Name != "HandshakeLeft")
-            {
+            StartInfo = processInfo
+        };
+
+        if (args.GestureSegment.Name != "HandshakeRight" || args.GestureSegment.Name == "HandshakeLeft" && CC == 0)
+        {
+            process.Start();
+            process.StandardInput.WriteLine($"\"{rutaArchivoBat}\"");
+            process.Close();
+        }
+
+
+        if (args.GestureSegment.Name != "HandshakeRight" || args.GestureSegment.Name != "HandshakeLeft" && CC == 30)
+        {
+
+                CC = 0;
                 process.Start();
                 // Ejecuta el archivo .bat mediante el símbolo del sistema
                 process.StandardInput.WriteLine($"\"{rutaArchivoBat}\"");
@@ -489,11 +400,27 @@ class Bulb
 
                 // Puedes mostrar un mensaje cuando el proceso haya terminado
                 /*Console.WriteLine("Proceso .bat completado.");
-                Console.Clear();
+                 Console.Clear();
                 */
-            }
+
         }
 
+        ProcessStartInfo processInfo2 = new ProcessStartInfo
+        {
+            FileName = "cmd.exe",
+            RedirectStandardInput = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        Process process2 = new Process
+        {
+            StartInfo = processInfo2
+        };
+
+        process2.Start();
+        process2.StandardInput.WriteLine($"\"{rutaArchivoBat2}\"");
+        process2.Close();
     }
     
 }

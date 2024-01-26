@@ -67,6 +67,7 @@
             BBulbControl.TabIndex = 3;
             BBulbControl.Text = "Lightbulb Control";
             BBulbControl.UseVisualStyleBackColor = false;
+            BBulbControl.Click += BBulbControl_Click;
             // 
             // BAlphabetControl
             // 
@@ -80,6 +81,7 @@
             BAlphabetControl.TabIndex = 4;
             BAlphabetControl.Text = "Alphabet Control";
             BAlphabetControl.UseVisualStyleBackColor = false;
+            BAlphabetControl.Click += BAlphabetControl_Click;
             // 
             // BSlideControl
             // 
@@ -111,10 +113,10 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = System.Drawing.Color.FromArgb(231, 214, 135);
-            label1.Font = new System.Drawing.Font("Dubai Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             label1.Location = new System.Drawing.Point(40, 11);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(297, 40);
+            label1.Size = new System.Drawing.Size(301, 29);
             label1.TabIndex = 7;
             label1.Text = "Kinect Control All in one!";
             // 

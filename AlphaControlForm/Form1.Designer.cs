@@ -21,13 +21,13 @@
         }//        
 
 
-            #region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-            /// <summary>
-            ///  Required method for Designer support - do not modify
-            ///  the contents of this method with the code editor.
-            /// </summary>
-            private void InitializeComponent()
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
         {
             panel1 = new System.Windows.Forms.Panel();
             BT_Z = new System.Windows.Forms.Button();
@@ -59,7 +59,6 @@
             PictureBox = new System.Windows.Forms.PictureBox();
             LB1 = new System.Windows.Forms.Label();
             LabelLetra = new System.Windows.Forms.Label();
-            LB2 = new System.Windows.Forms.Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBox).BeginInit();
             SuspendLayout();
@@ -364,16 +363,6 @@
             LabelLetra.TabIndex = 3;
             LabelLetra.Text = "xD";
             // 
-            // LB2
-            // 
-            LB2.AutoSize = true;
-            LB2.Font = new System.Drawing.Font("Segoe UI", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            LB2.Location = new System.Drawing.Point(833, 69);
-            LB2.Name = "LB2";
-            LB2.Size = new System.Drawing.Size(61, 67);
-            LB2.TabIndex = 4;
-            LB2.Text = "A";
-            // 
             // AlphaForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -381,7 +370,6 @@
             BackgroundImage = AlphaControlForm.Properties.Resources.GreenDiamond;
             BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             ClientSize = new System.Drawing.Size(1006, 529);
-            Controls.Add(LB2);
             Controls.Add(LabelLetra);
             Controls.Add(LB1);
             Controls.Add(PictureBox);
@@ -389,7 +377,7 @@
             KeyPreview = true;
             Name = "AlphaForm";
             Text = " ";
-            Load += Form1_Load ;
+            Load += Form1_Load;
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)PictureBox).EndInit();
             ResumeLayout(false);
@@ -428,6 +416,5 @@
         private System.Windows.Forms.PictureBox PictureBox;
         private System.Windows.Forms.Label LB1;
         private System.Windows.Forms.Label LabelLetra;
-        private System.Windows.Forms.Label LB2;
     }
 }

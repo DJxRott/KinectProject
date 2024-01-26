@@ -1,13 +1,10 @@
 ﻿
 using System;
-using System.CodeDom.Compiler;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using Microsoft.Gestures;
 using Microsoft.Gestures.Endpoint;
-using Microsoft.Gestures.Stock.Gestures;
 using WindowsInput;
 using WindowsInput.Native;
 
@@ -15,7 +12,7 @@ namespace UIControl
 {
     public partial class AlphaForm : Form
     {
-        public string RutaArch = "C:\\Users\\mitch\\OneDrive\\Documents\\Visual Studio Projects\\KinectProject\\AlphaControlForm\\Resources\\";
+        public string RutaArch = "C:\\Users\\mitch\\Source\\Repos\\DJxRott\\KinectProject\\AlphaControlForm\\Resources\\";
 
         private static GesturesServiceEndpoint _gesturesService;
         private static Gesture _Letter_A;

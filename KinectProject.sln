@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicControlForm", "MusicCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerPointCForm", "PowerPointCForm\PowerPointCForm.csproj", "{B7251BB6-5B04-4C35-BD7F-0F85F72B33E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlphaControlForm", "AlphaControlForm\AlphaControlForm.csproj", "{8A191102-8442-4541-A91C-616F102B81DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlphaControlForm", "AlphaControlForm\AlphaControlForm.csproj", "{8A191102-8442-4541-A91C-616F102B81DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulbControlForm", "BulbControlForm\BulbControlForm.csproj", "{B0042694-BBFD-4105-976C-AFA83F5335E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{8A191102-8442-4541-A91C-616F102B81DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A191102-8442-4541-A91C-616F102B81DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A191102-8442-4541-A91C-616F102B81DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0042694-BBFD-4105-976C-AFA83F5335E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0042694-BBFD-4105-976C-AFA83F5335E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0042694-BBFD-4105-976C-AFA83F5335E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0042694-BBFD-4105-976C-AFA83F5335E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

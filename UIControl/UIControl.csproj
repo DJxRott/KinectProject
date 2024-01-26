@@ -36,6 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AlphaControlForm\AlphaControlForm.csproj" />
+    <ProjectReference Include="..\BulbControlForm\BulbControlForm.csproj" />
     <ProjectReference Include="..\MusicControlForm\MusicControlForm.csproj" />
     <ProjectReference Include="..\PowerPointCForm\PowerPointCForm.csproj" />
   </ItemGroup>

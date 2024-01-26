@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+   <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+	
+	
+  <ItemGroup>
+    <PackageReference Include="InputSimulator" Version="1.0.4" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Microsoft.Gestures.Common.Core">
+			<HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\Microsoft.Gestures.Common.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Gestures.Core">
+			<HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\SDK\.netcore\Microsoft.Gestures.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Gestures.Protocol.Core">
+			<HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\SDK\.netcore\Microsoft.Gestures.Protocol.Core.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Gestures.Proxy.Core">
+			<HintPath>..\..\..\..\..\AppData\Roaming\Microsoft\Prague\PragueVersions\LatestVersion\SDK\.netcore\Microsoft.Gestures.Proxy.Core.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+</Project>

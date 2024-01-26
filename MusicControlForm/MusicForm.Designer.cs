@@ -51,7 +51,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = MusicControlForm.Properties.Resources.Volume_Down;
-            pictureBox1.Location = new System.Drawing.Point(72, 290);
+            pictureBox1.Location = new System.Drawing.Point(63, 290);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new System.Drawing.Size(163, 163);
             pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -62,7 +62,7 @@
             // 
             pictureBox2.BackColor = System.Drawing.Color.White;
             pictureBox2.Image = MusicControlForm.Properties.Resources.Volume_Up;
-            pictureBox2.Location = new System.Drawing.Point(811, 290);
+            pictureBox2.Location = new System.Drawing.Point(781, 290);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new System.Drawing.Size(163, 163);
             pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -72,7 +72,7 @@
             // pictureBox3
             // 
             pictureBox3.Image = MusicControlForm.Properties.Resources.Drop_the_Mic;
-            pictureBox3.Location = new System.Drawing.Point(451, 290);
+            pictureBox3.Location = new System.Drawing.Point(425, 290);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new System.Drawing.Size(163, 163);
             pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -82,7 +82,7 @@
             // pictureBox4
             // 
             pictureBox4.Image = MusicControlForm.Properties.Resources.Media_Next_Track;
-            pictureBox4.Location = new System.Drawing.Point(811, 40);
+            pictureBox4.Location = new System.Drawing.Point(781, 40);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new System.Drawing.Size(163, 163);
             pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -92,7 +92,7 @@
             // pictureBox5
             // 
             pictureBox5.Image = MusicControlForm.Properties.Resources.Rock_On;
-            pictureBox5.Location = new System.Drawing.Point(451, 40);
+            pictureBox5.Location = new System.Drawing.Point(425, 40);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new System.Drawing.Size(163, 163);
             pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -102,7 +102,7 @@
             // pictureBox6
             // 
             pictureBox6.Image = MusicControlForm.Properties.Resources.Media_Prev_Track;
-            pictureBox6.Location = new System.Drawing.Point(72, 40);
+            pictureBox6.Location = new System.Drawing.Point(63, 40);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new System.Drawing.Size(163, 163);
             pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -113,7 +113,7 @@
             // 
             LSubirVol.AutoSize = true;
             LSubirVol.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            LSubirVol.Location = new System.Drawing.Point(842, 473);
+            LSubirVol.Location = new System.Drawing.Point(812, 473);
             LSubirVol.Name = "LSubirVol";
             LSubirVol.Size = new System.Drawing.Size(105, 20);
             LSubirVol.TabIndex = 6;
@@ -122,7 +122,7 @@
             // LMediaPlayPause
             // 
             LMediaPlayPause.AutoSize = true;
-            LMediaPlayPause.Location = new System.Drawing.Point(462, 218);
+            LMediaPlayPause.Location = new System.Drawing.Point(436, 218);
             LMediaPlayPause.Name = "LMediaPlayPause";
             LMediaPlayPause.Size = new System.Drawing.Size(138, 20);
             LMediaPlayPause.TabIndex = 7;
@@ -131,7 +131,7 @@
             // LMute
             // 
             LMute.AutoSize = true;
-            LMute.Location = new System.Drawing.Point(489, 473);
+            LMute.Location = new System.Drawing.Point(463, 473);
             LMute.Name = "LMute";
             LMute.Size = new System.Drawing.Size(83, 20);
             LMute.TabIndex = 8;
@@ -140,7 +140,7 @@
             // LBajarVol
             // 
             LBajarVol.AutoSize = true;
-            LBajarVol.Location = new System.Drawing.Point(101, 473);
+            LBajarVol.Location = new System.Drawing.Point(92, 473);
             LBajarVol.Name = "LBajarVol";
             LBajarVol.Size = new System.Drawing.Size(105, 20);
             LBajarVol.TabIndex = 9;
@@ -149,7 +149,7 @@
             // LNextTr
             // 
             LNextTr.AutoSize = true;
-            LNextTr.Location = new System.Drawing.Point(855, 218);
+            LNextTr.Location = new System.Drawing.Point(825, 218);
             LNextTr.Name = "LNextTr";
             LNextTr.Size = new System.Drawing.Size(71, 20);
             LNextTr.TabIndex = 10;
@@ -158,7 +158,7 @@
             // LPrevTr
             // 
             LPrevTr.AutoSize = true;
-            LPrevTr.Location = new System.Drawing.Point(111, 218);
+            LPrevTr.Location = new System.Drawing.Point(102, 218);
             LPrevTr.Name = "LPrevTr";
             LPrevTr.Size = new System.Drawing.Size(63, 20);
             LPrevTr.TabIndex = 11;
@@ -169,7 +169,8 @@
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackgroundImage = MusicControlForm.Properties.Resources.PurpleMusic;
-            ClientSize = new System.Drawing.Size(1024, 575);
+            BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            ClientSize = new System.Drawing.Size(1006, 529);
             Controls.Add(LPrevTr);
             Controls.Add(LNextTr);
             Controls.Add(LBajarVol);

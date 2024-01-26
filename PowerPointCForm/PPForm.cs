@@ -51,7 +51,7 @@ namespace UIControl
             // Step 2: Define bunch of custom Gestures, each detection of the gesture will emit some message into the console
             await RegisterPointRightGesture();//Anterior Diapositiva
             await RegisterPointLeftGesture();//Siguiente Diapositiva
-            await RegisterZoominGesture();//Acercar Diapositiva
+            await RegisterZoomInGesture();//Acercar Diapositiva
             await RegisterZoomOutGesture();//Alejar Diapositiva
             await RegisterZoomToFitGesture();//Ajustar Zoom
 
@@ -70,7 +70,6 @@ namespace UIControl
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _PointGestureR = new Gesture("PointRight", front, right);
-            _PointGestureR.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Yellow);
             InputSimulator sim = new InputSimulator();
             _PointGestureR.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.LEFT);
 
@@ -84,7 +83,7 @@ namespace UIControl
         private static async Task RegisterPointLeftGesture()
         {
             // Start with defining the first pose, ...
-            var front = new HandPose("Front", new FingerPose(new[] {Finger.Middle, Finger.Ring, Finger.Pinky, Finger.Thumb}, FingerFlexion.Folded),
+            var front = new HandPose("Front", new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky, Finger.Thumb }, FingerFlexion.Folded),
                                               new FingerPose(Finger.Index, PoseDirection.Forward));
             // ... define the second pose, ...
             var left = new HandPose("Left", new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
@@ -93,7 +92,6 @@ namespace UIControl
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _PointGestureL = new Gesture("PointLeft", front, left);
-            _PointGestureL.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkYellow);
             InputSimulator sim = new InputSimulator();
             _PointGestureL.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
 
@@ -103,22 +101,21 @@ namespace UIControl
             await _gesturesService.RegisterGesture(_PointGestureL, isGlobal: true);
         }
 
-        private static async Task RegisterZoominGesture()
+        private static async Task RegisterZoomInGesture()
         {
             // Start with defining the first pose, ...
-            var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
-                                            new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
-                                            new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Thumb),
-                                            new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb));
+            var hold = new HandPose("Hold", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
+                                            new FingerPose(new[] { Finger.Index, Finger.Pinky, Finger.Middle }, FingerFlexion.Open, PoseDirection.Up),
+                                            new FingerPose(new[] { Finger.Ring, Finger.Thumb }, FingerFlexion.Folded),
+                                            new FingertipDistanceRelation(Finger.Thumb, RelativeDistance.Touching, Finger.Ring));
             // ... define the second pose, ...
-            var zoomin = new HandPose("Zoom", new FingerPose(new[] { Finger.Thumb, Finger.Index }, FingerFlexion.Open, PoseDirection.Forward),
-                                            new FingerPose(new[] { Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
-                                            new FingertipDistanceRelation(Finger.Index, RelativeDistance.NotTouching, Finger.Thumb),
-                                            new FingertipPlacementRelation(Finger.Index, RelativePlacement.Above, Finger.Thumb));
+            var zoomin = new HandPose("Zoom", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
+                                            new FingerPose(new[] { Finger.Index, Finger.Pinky, Finger.Middle }, FingerFlexion.Open, PoseDirection.Left),
+                                            new FingerPose(new[] { Finger.Ring, Finger.Thumb }, FingerFlexion.Folded),
+                                            new FingertipDistanceRelation(Finger.Thumb, RelativeDistance.Touching, Finger.Ring));
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _ZoomInGesture = new Gesture("ZoomIn", hold, zoomin);
-            _ZoomInGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Yellow);
             InputSimulator sim = new InputSimulator();
             _ZoomInGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.CONTROL, VirtualKeyCode.OEM_PLUS);
 
@@ -131,20 +128,19 @@ namespace UIControl
         private static async Task RegisterZoomOutGesture()
         {
             // Start with defining the first pose, ...
-            var hold = new HandPose("Hold", new FingerPose(new[] { Finger.Thumb, Finger.Index}, FingerFlexion.Open),
-                                            new FingerPose(new[] { Finger.Ring, Finger.Pinky, Finger.Middle }, FingerFlexion.Folded),
-                                            new FingertipDistanceRelation(Finger.Thumb, RelativeDistance.NotTouching, Finger.Index),
-                                            new FingertipPlacementRelation(Finger.Index, RelativePlacement.Right, Finger.Thumb));
+            var hold = new HandPose("Hold", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
+                                            new FingerPose(new[] { Finger.Index, Finger.Pinky, Finger.Middle }, FingerFlexion.Open, PoseDirection.Up),
+                                            new FingerPose(new[] { Finger.Ring, Finger.Thumb }, FingerFlexion.Folded),
+                                            new FingertipDistanceRelation(Finger.Thumb, RelativeDistance.Touching, Finger.Ring));
             // ... define the second pose, ...
-            var zoomout = new HandPose("Zoom", new FingerPose(new[] { Finger.Thumb, Finger.Index, Finger.Middle }, FingerFlexion.Open),
-                                            new FingerPose(new[] {  Finger.Ring, Finger.Pinky, Finger.Middle }, FingerFlexion.Folded),
-                                            new FingertipDistanceRelation(Finger.Index, RelativeDistance.Touching, Finger.Thumb),
-                                            new FingertipPlacementRelation(Finger.Index, RelativePlacement.Right, Finger.Thumb));
+            var zoomout = new HandPose("Zoom", new PalmPose(new AnyHandContext(), PoseDirection.Forward),
+                                            new FingerPose(new[] { Finger.Index, Finger.Pinky, Finger.Middle }, FingerFlexion.Open, PoseDirection.Right),
+                                            new FingerPose(new[] { Finger.Ring, Finger.Thumb }, FingerFlexion.Folded),
+                                            new FingertipDistanceRelation(Finger.Thumb, RelativeDistance.Touching, Finger.Ring));
 
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _ZoomOutGesture = new Gesture("ZoomOut", hold, zoomout);
-            _ZoomOutGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Red);
             InputSimulator sim = new InputSimulator();
             _ZoomOutGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.CONTROL, VirtualKeyCode.OEM_MINUS);
 
@@ -154,7 +150,7 @@ namespace UIControl
             await _gesturesService.RegisterGesture(_ZoomOutGesture, isGlobal: true);
         }
 
- 
+
         private static async Task RegisterZoomToFitGesture()
         {
             // Start with defining the first pose, ...
@@ -165,7 +161,6 @@ namespace UIControl
 
             // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
             _ZoomToFitGesture = new Gesture("ZoomFit", hold);
-            _ZoomToFitGesture.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.Red);
             InputSimulator sim = new InputSimulator();
             _ZoomToFitGesture.Triggered += (s, e) => sim.Keyboard.KeyPress(VirtualKeyCode.LCONTROL, VirtualKeyCode.MENU, VirtualKeyCode.VK_O);
 
@@ -173,17 +168,6 @@ namespace UIControl
             // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
             // detected even it was initiated not by this application or if the this application isn't in focus
             await _gesturesService.RegisterGesture(_ZoomToFitGesture, isGlobal: true);
-        }
-
-        private static void OnGestureDetected(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Gesture detected! : ");
-            Console.ForegroundColor = foregroundColor;
-            Console.WriteLine(args.GestureSegment.Name);
-
-            Console.ResetColor();
-
         }
 
     }

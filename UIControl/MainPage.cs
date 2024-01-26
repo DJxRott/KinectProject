@@ -90,31 +90,7 @@ namespace UIControl
             await _gesturesService.ConnectAsync();
 
             // Step 2: Define bunch of custom Gestures, each detection of the gesture will emit some message into the console
-            await RegisterOneGesture();
-        }
 
-        public static async Task RegisterOneGesture()
-        {
-            // Start with defining the first pose, ...
-            var Iddle = new HandPose("iddle", new FingerPose(new AllFingersContext(), FingerFlexion.OpenStretched),
-                                              new PalmPose(new AnyHandContext(), PoseDirection.Backward));
-
-            var hold = new HandPose("Hold", new FingerPose(Finger.Index, FingerFlexion.Open, PoseDirection.Up),
-                                            new FingerPose(new[] { Finger.Thumb, Finger.Middle, Finger.Ring, Finger.Pinky }, FingerFlexion.Folded),
-                                            new PalmPose(new AnyHandContext(), PoseDirection.Backward));
-
-
-            //Instance for non-specific method
-
-            // ... finally define the gesture using the hand pose objects defined above forming a simple state machine: hold -> rotate
-            _One = new Gesture("One", Iddle, hold);
-            _One.Triggered += (s, e) => _instance.Executor(s, e);
-            //_One.Triggered += (s, e) => OnGestureDetected(s, e, ConsoleColor.DarkRed);
-
-            // Step 3: Register the gesture             
-            // Registering the like gesture _globally_ (i.e. isGlobal:true), by global registration we mean this gesture will be 
-            // detected even it was initiated not by this application or if the this application isn't in focus
-            await _gesturesService.RegisterGesture(_One, isGlobal: true);
         }
 
 
@@ -190,48 +166,7 @@ namespace UIControl
 
         }
 
-        private void OnGestureDetected(object sender, GestureSegmentTriggeredEventArgs args, ConsoleColor foregroundColor)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("Gesture detected! : ");
-            Console.ForegroundColor = foregroundColor;
-            Console.WriteLine(args.GestureSegment.Name);
 
-            Console.ResetColor();
-
-        }
-
-
-
-        private void Executor(object sender, GestureSegmentTriggeredEventArgs args)
-        {
-
-            /*string rutaArchivoExe = @"C:\Users\mitch\OneDri ve\Documents\Visual Studio Projects\KinectProject\MusicControl\bin\Debug\netcoreapp3.1\MusicControl.exe"; // Reemplaza con la ruta completa de tu archivo .bat
-
-                ProcessStartInfo processInfo = new ProcessStartInfo
-                {
-                    FileName = rutaArchivoExe,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = false,
-                };
-
-                Process process = new Process
-                {
-                    StartInfo = processInfo
-                };
-
-                process.Start();
-                StreamReader reader = process.StandardOutput;
-                string salida = reader.ReadToEnd();
-                Console.WriteLine(salida);
-
-                process.WaitForExit();
-
-                GestureComparator = (args.GestureSegment.Name);
-            */
-        }
 
         private void BMediaControl_Click(object sender, EventArgs e)
         {
@@ -244,9 +179,19 @@ namespace UIControl
             PPForm F4 = new PPForm();
             F4.Show();
         }
+
+        private void BAlphabetControl_Click(object sender, EventArgs e)
+        {
+            AlphaForm F3 = new AlphaForm();
+            F3.Show();
+        }
+
+        private void BBulbControl_Click(object sender, EventArgs e)
+        {
+            ControlBForm F2 = new ControlBForm();
+            F2.Show();
+        }
     }
-
-
 
 }
 
